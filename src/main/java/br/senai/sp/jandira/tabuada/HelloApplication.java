@@ -1,18 +1,17 @@
 package br.senai.sp.jandira.tabuada;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Optional;
 
 public class HelloApplication extends Application {
 
@@ -78,10 +77,13 @@ public class HelloApplication extends Application {
 
         Button btnLimpar = new Button("Limpar");
         btnLimpar.setOnAction(e -> {
-            limparTabuada();
+            limparFormulario();
         });
 
         Button btnSair = new Button("Sair");
+        btnSair.setOnAction(e -> {
+            fechar();
+        });
 
         //Adicionar os botões na boxBotões
         boxbotoes.getChildren().addAll(btnCalcular, btnLimpar, btnSair);
@@ -139,7 +141,27 @@ public class HelloApplication extends Application {
          listaTabuada.getItems().addAll(tabuada);
     }
 
-    public void limparTabuada() {
+    public void limparFormulario() {
+        textFieldMultiplicando.setText("");
+        textFieldMaiorMultiplicador.setText("");
+        textFieldMenorMultiplicador.setText("");
         listaTabuada.getItems().clear();
+        textFieldMultiplicando.requestFocus();
+    }
+    public void fechar() {
+        Alert alertaFechar = new Alert(
+                Alert.AlertType.CONFIRMATION,
+                "Confirma a saída do sistema?",
+                ButtonType.YES,
+                ButtonType.NO
+        );
+       Optional<ButtonType> resposta = alertaFechar.showAndWait();
+
+       if (resposta.isPresent() && resposta.get() == ButtonType.YES) {
+           Platform.exit();
+       }
+
     }
 }
+
+
