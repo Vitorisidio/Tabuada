@@ -3,6 +3,8 @@ package br.senai.sp.jandira.tabuada;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
@@ -24,9 +26,19 @@ public class HelloApplication extends Application {
     public void start(Stage stage) throws IOException {
 
         //Definir o tamanho da tela(stage)
-        stage.setWidth(500);
-        stage.setHeight(500);
+        //stage.setWidth(500);
+        stage.setHeight(600);
         stage.setTitle("Tabuada");
+
+        //Controlando o fechamento ao clicar no fechar da janela
+        stage.setOnCloseRequest( e -> {
+            fechar();
+            e.consume();
+        });
+
+
+        //Bloquear o rendimensionamento da janela
+        stage.setResizable(false);
 
         //Componenete principal da tela
         VBox root = new VBox();
@@ -50,13 +62,16 @@ public class HelloApplication extends Application {
 
         //criar multiplicando
         GridPane gridformulario = new GridPane();
-        Label labelMultiplicando = new Label("Multiplicando");
+        gridformulario.setPadding(new Insets(20));
+        gridformulario.setVgap(10);
+        gridformulario.setHgap(10);
+        Label labelMultiplicando = new Label("Multiplicando:");
         textFieldMultiplicando = new TextField();
 
-        Label labelMenorMultiplicador = new Label("Menor Multiplicador");
+        Label labelMenorMultiplicador = new Label("Menor Multiplicador:");
         textFieldMenorMultiplicador = new TextField();
 
-        Label labelMaiorMultiplicador = new Label("Maior Multiplicador");
+        Label labelMaiorMultiplicador = new Label("Maior Multiplicador:");
         textFieldMaiorMultiplicador = new TextField();
 
         gridformulario.add(labelMultiplicando, 0, 0);
@@ -68,7 +83,12 @@ public class HelloApplication extends Application {
 
         //criar botões
         HBox boxbotoes = new HBox();
+        boxbotoes.setPadding(new Insets(0, 20, 20, 20));
+        boxbotoes.setSpacing(10);
+        boxbotoes.setAlignment(Pos.TOP_RIGHT);
+
         Button btnCalcular = new Button("Calcular");
+        btnCalcular.setPrefWidth(90);
         btnCalcular.setOnAction(e -> {
             calcularTabuada();
 
@@ -76,11 +96,13 @@ public class HelloApplication extends Application {
 
 
         Button btnLimpar = new Button("Limpar");
+        btnCalcular.setPrefWidth(70);
         btnLimpar.setOnAction(e -> {
             limparFormulario();
         });
 
         Button btnSair = new Button("Sair");
+        btnCalcular.setPrefWidth(70);
         btnSair.setOnAction(e -> {
             fechar();
         });
@@ -90,6 +112,7 @@ public class HelloApplication extends Application {
 
         //Adicionar um componente ListView
         VBox boxResultado = new VBox();
+        boxResultado.setPadding(new Insets(0, 20, 20, 20));
         Label labelResultado = new Label("Resultado");
         labelResultado.setStyle("-fx-text-fill: blue; -fx-font-size: 14; -fx-font-weight: bold;");
 
